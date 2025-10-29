@@ -142,17 +142,65 @@ class PilotDashboard {
         try {
             const response = await fetch(`${this.apiUrl}/pilots`);
             if (response.ok) {
-                this.pilots = await response.json();
+                const result = await response.json();
+                // Backend returns {success, count, data}
+                this.pilots = result.data || result;
+
+                // Convert backend snake_case to frontend camelCase
+                this.pilots = this.pilots.map(pilot => this.convertPilotFromAPI(pilot));
+
                 console.log('Loaded pilots from API:', this.pilots.length);
             } else {
                 throw new Error('API not available');
             }
         } catch (error) {
-            console.log('Using sample data (API not available)');
+            console.log('Using sample data (API not available):', error.message);
             this.pilots = this.samplePilots;
         }
 
         this.filteredPilots = [...this.pilots];
+    }
+
+    // Convert backend format to frontend format
+    convertPilotFromAPI(pilot) {
+        return {
+            id: pilot.id,
+            companyName: pilot.company_name,
+            startDate: pilot.start_date,
+            endDate: pilot.end_date,
+            contractValue: pilot.contract_value,
+            status: pilot.status.toLowerCase().replace(' ', '_'),
+            healthScore: pilot.health_score,
+            primaryContact: {
+                name: pilot.primary_contact ? pilot.primary_contact.split(' - ')[0] : 'Unknown',
+                email: pilot.primary_contact ? pilot.primary_contact.split(' - ')[1] || '' : '',
+                role: pilot.primary_contact ? pilot.primary_contact.split(' - ')[1] || '' : ''
+            },
+            successCriteria: pilot.success_criteria || [],
+            conversionProbability: pilot.conversion_probability,
+            notes: pilot.notes || '',
+            // Additional fields from backend
+            arrProjection: pilot.arr_projection,
+            daysRemaining: pilot.daysRemaining,
+            progress: pilot.progress,
+            riskLevel: pilot.riskLevel
+        };
+    }
+
+    // Convert frontend format to backend format
+    convertPilotToAPI(pilot) {
+        return {
+            company_name: pilot.companyName,
+            industry: pilot.industry || 'Technology',
+            start_date: pilot.startDate,
+            end_date: pilot.endDate,
+            status: pilot.status,
+            contract_value: pilot.contractValue,
+            arr_projection: pilot.arrProjection || pilot.contractValue * 2,
+            conversion_probability: pilot.conversionProbability || 50,
+            primary_contact: `${pilot.primaryContact.name} - ${pilot.primaryContact.role}`,
+            notes: pilot.notes || ''
+        };
     }
 
     renderDashboard() {
@@ -582,6 +630,9 @@ class PilotDashboard {
             notes: document.getElementById('pilot-notes').value
         };
 
+        // Convert to backend format
+        const apiData = this.convertPilotToAPI(formData);
+
         try {
             let response;
             if (this.currentEditId) {
@@ -589,11 +640,12 @@ class PilotDashboard {
                 response = await fetch(`${this.apiUrl}/pilots/${this.currentEditId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(apiData)
                 });
 
                 if (response.ok) {
-                    const updatedPilot = await response.json();
+                    const result = await response.json();
+                    const updatedPilot = this.convertPilotFromAPI(result.data || result);
                     const index = this.pilots.findIndex(p => p.id === this.currentEditId);
                     this.pilots[index] = updatedPilot;
                 } else {
@@ -604,11 +656,12 @@ class PilotDashboard {
                 response = await fetch(`${this.apiUrl}/pilots`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(apiData)
                 });
 
                 if (response.ok) {
-                    const newPilot = await response.json();
+                    const result = await response.json();
+                    const newPilot = this.convertPilotFromAPI(result.data || result);
                     this.pilots.push(newPilot);
                 } else {
                     throw new Error('API create failed');

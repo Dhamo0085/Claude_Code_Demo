@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(tree:*)",
-      "Bash(open:*)"
+      "Bash(open:*)",
+      "Bash(chmod:*)",
+      "Bash(curl:*)",
+      "Bash(./TEST_CONNECTION.sh:*)"
     ],
     "deny": [],
     "ask": []
