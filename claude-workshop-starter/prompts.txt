@@ -1,0 +1,220 @@
+CLAUDE CODE WORKSHOP PROMPTS - ENTREPRENEUR EDITION
+==================================================
+
+🟢 BEGINNER PROMPTS (Validate Your First Idea!)
+-----------------------------------------------
+
+LANDING PAGE WITH WAITLIST:
+claude "Create a landing page for my startup idea. Include a compelling headline, 3 benefit points, and email capture for early access. Show how many people signed up. Make it look like a funded startup."
+
+VALUE PROPOSITION TESTER:
+claude "Build an A/B testing tool. Show two different headlines and track which gets more clicks. Display conversion rates. Perfect for testing messaging."
+
+PRICING CALCULATOR:
+claude "Make a pricing calculator that shows how much customers save using our solution. Include sliders for their current costs and show ROI. Make the savings number really big and green."
+
+COMPETITOR COMPARISON:
+claude "Create a comparison table: Us vs Them. Make our column obviously better with green checkmarks. Include a 'Get Started' CTA. Classic SaaS sales tool."
+
+CUSTOMER TESTIMONIAL COLLECTOR:
+claude "Build a tool to collect video testimonials. Let customers record text testimonials with their name and company. Display them in a wall of love format."
+
+STARTUP IDEA VALIDATOR:
+claude "Create a one-page validation tool. Users enter their idea and answer 5 key questions (problem, solution, market size, etc). Give them a score and actionable feedback."
+
+INVESTOR UPDATE GENERATOR:
+claude "Make a tool that generates investor update emails. Input metrics (MRR, growth, challenges) and get a professional update. Include charts that always go up and to the right."
+
+FEATURE REQUEST TRACKER:
+claude "Build a public roadmap where users can request and vote on features. Show 'planned', 'in progress', 'shipped'. Great for community engagement."
+
+
+🟡 INTERMEDIATE PROMPTS (Build Your MVP!)
+-----------------------------------------
+
+SaaS METRICS DASHBOARD:
+claude "Transform template.html into a founder's dashboard showing:
+- MRR with month-over-month growth
+- Customer acquisition cost (CAC)
+- Lifetime value (LTV) 
+- Churn rate with cohort analysis
+- Burn rate and runway
+Make it look like Stripe's dashboard"
+
+CUSTOMER ONBOARDING FLOW:
+claude "Build a multi-step onboarding experience:
+- Welcome screen with value props
+- Collect company info
+- Choose plan (good/better/best)
+- Setup first integration
+- Success celebration
+Track drop-off at each step"
+
+LEAD SCORING CALCULATOR:
+claude "Create a B2B lead scoring app:
+- Input prospect details (company size, industry, engagement)
+- Calculate score based on ideal customer profile
+- Show which leads to prioritize
+- Export qualified leads
+- Add 'book a demo' for hot leads"
+
+SUBSCRIPTION BILLING PREVIEW:
+claude "Build a billing page mockup:
+- Show current plan and usage
+- Upgrade/downgrade options
+- Add team members ($15/seat)
+- Usage-based pricing calculator
+- Annual vs monthly toggle showing savings"
+
+CONTENT CALENDAR PLANNER:
+claude "Create a content marketing planner:
+- Calendar view with content types
+- SEO keyword tracker
+- Social media post scheduler (mock)
+- Content performance metrics
+- AI content idea generator"
+
+AFFILIATE PROGRAM DASHBOARD:
+claude "Build an affiliate tracking dashboard:
+- Unique referral links
+- Commission calculator
+- Conversion tracking
+- Payout management
+- Leaderboard to gamify"
+
+CUSTOMER SUCCESS TRACKER:
+claude "Create a customer health score system:
+- Track product usage metrics
+- NPS survey builder
+- Churn risk indicators
+- Automated alert system
+- Customer journey timeline"
+
+
+🔴 ADVANCED PROMPTS (Scale Your Business!)
+------------------------------------------
+
+FULL SAAS APPLICATION (Multi-File):
+claude "Create a complete B2B SaaS app:
+/commands:
+- Split into: index.html, auth.js, dashboard.js, billing.js, api.js
+- User authentication (mock)
+- Team management with roles
+- Usage-based billing
+- Admin panel
+- API documentation page
+Make it feel like a $10k/month product"
+
+MARKETPLACE PLATFORM:
+claude "Build a two-sided marketplace:
+/agent: Create the buyer experience
+/terminal1: Build the seller dashboard
+/terminal2: Create admin controls
+Features:
+- Service listings with categories
+- Booking/transaction flow
+- Reviews and ratings
+- Seller analytics
+- Platform fee calculator"
+
+SALES CRM SYSTEM:
+claude "Build a founder-friendly CRM:
+/commands:
+- Multiple files: deals.js, contacts.js, pipeline.js, analytics.js
+- Kanban pipeline view
+- Email tracking (mock)
+- Deal value forecasting
+- Activity logging
+- Revenue analytics"
+
+INVESTOR RELATIONS PORTAL:
+claude "Create an investor dashboard:
+/agent: Build the main metrics dashboard
+/terminal1: Create document management system
+/terminal2: Build cap table visualization
+Include:
+- Real-time metrics
+- Document room
+- Update publishing
+- Cap table management
+- SAFE/equity calculator"
+
+PRODUCT ANALYTICS TOOL:
+claude "Build a Mixpanel competitor:
+/agent: Create event tracking dashboard
+/terminal1: Build funnel analysis tool
+/terminal2: Create cohort retention charts
+Features:
+- User journey mapping
+- Conversion funnels
+- Feature adoption tracking
+- A/B test results
+- Export to investors"
+
+API MONETIZATION PLATFORM:
+claude "Create a Stripe-like API business:
+/commands:
+- Split into: dashboard.html, usage.js, billing.js, docs.js
+- API key management
+- Usage tracking and limits
+- Tiered pricing calculator
+- Developer documentation
+- Webhook management"
+
+ENTERPRISE PILOT TRACKER:
+claude "Build a B2B pilot program manager:
+/agent: Create pilot dashboard
+/terminal1: Build success criteria tracker
+/terminal2: Generate executive reports
+Include:
+- Pilot timeline management
+- Success metrics tracking
+- Stakeholder updates
+- Contract value calculator
+- Conversion predictor"
+
+
+🚀 GROWTH HACKING PROMPTS
+------------------------
+
+VIRAL REFERRAL SYSTEM:
+claude "Create a Dropbox-style referral program:
+/agent: Build the referral dashboard
+/terminal1: Create sharing mechanisms
+Features: Unique referral codes, reward tiers, viral coefficient tracking, social sharing optimization"
+
+PRODUCT LAUNCH COUNTDOWN:
+claude "Build a ProductHunt launch command center:
+/agent: Create the launch day dashboard
+/terminal1: Build supporter notification system
+Show: Live vote count, traffic sources, conversion tracking, competitor analysis"
+
+REVENUE FORECASTING MODEL:
+claude "Create an interactive revenue predictor:
+Input: Current MRR, growth rate, churn, CAC
+Output: 12-month forecast, scenarios, burn rate, funding needs
+Make it venture-scale ambitious"
+
+
+💡 ENTREPRENEUR POWER TIPS
+--------------------------
+
+Quick MVP:
+claude "Take template.html and turn it into a [YOUR BUSINESS] SaaS MVP. Include user onboarding, a killer value prop, and enough features to start charging. Make it look venture-funded."
+
+Investor Ready:
+claude "Build a metrics dashboard for my [TYPE] startup that would impress a Series A investor. Include all the numbers VCs care about. Make the graphs beautiful."
+
+Customer Validation:
+claude "Create a customer interview tool for my [INDUSTRY] startup. Collect problems, solutions, and willingness to pay. Generate insights automatically."
+
+🎯 STARTUP WISDOM
+-----------------
+- Every prompt solves a real founder problem
+- Start with validation (landing page)
+- Progress to MVP (intermediate)
+- Scale with advanced features
+- Always include metrics that matter
+- Make it look investment-worthy
+
+Remember: The best startups ship fast and iterate. Your code doesn't need to be perfect - it needs to validate your idea!

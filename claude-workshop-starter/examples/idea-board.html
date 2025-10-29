@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idea Board - Capture Your Best Ideas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #a3a3a3;
+            font-family: -apple-system, 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-size: 2.5em;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            color: #737373;
+            font-size: 1.1em;
+        }
+
+        .add-idea-card {
+            background: #141414;
+            border: 1px solid #262626;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+            transition: all 250ms ease;
+        }
+
+        .add-idea-card:hover {
+            border-color: #404040;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input[type="text"], textarea, select {
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid #262626;
+            border-radius: 8px;
+            padding: 12px;
+            color: #ffffff;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 250ms ease;
+        }
+
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 250ms ease;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #141414;
+            color: #a3a3a3;
+            border: 1px solid #262626;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 250ms ease;
+            font-weight: 600;
+            width: auto;
+        }
+
+        .filter-btn:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .ideas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .idea-card {
+            background: #141414;
+            border: 1px solid #262626;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 250ms ease;
+            position: relative;
+        }
+
+        .idea-card:hover {
+            background: #1a1a1a;
+            border-color: #404040;
+            transform: translateY(-2px);
+        }
+
+        .idea-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .idea-title {
+            color: #ffffff;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            flex: 1;
+        }
+
+        .idea-status {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-new {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .status-exploring {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .status-building {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .status-launched {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+        }
+
+        .idea-description {
+            color: #a3a3a3;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .idea-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid #262626;
+        }
+
+        .idea-date {
+            color: #737373;
+            font-size: 0.85em;
+        }
+
+        .idea-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: 1px solid #262626;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border-radius: 6px;
+            color: #a3a3a3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 250ms ease;
+        }
+
+        .icon-btn:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+            box-shadow: none;
+        }
+
+        .icon-btn.delete:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-state .emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: #ffffff;
+            font-size: 1.5em;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            color: #737373;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: #141414;
+            border: 1px solid #262626;
+            border-radius: 12px;
+            padding: 20px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            color: #ffffff;
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            color: #737373;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .ideas-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>=¡ Idea Board</h1>
+            <p>Capture and track your startup ideas</p>
+        </div>
+
+        <div class="stats" id="stats"></div>
+
+        <div class="add-idea-card">
+            <div class="form-group">
+                <label>Idea Title</label>
+                <input type="text" id="titleInput" placeholder="E.g., AI-powered meeting notes">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="descriptionInput" placeholder="What problem does this solve?"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select id="statusInput">
+                    <option value="new">New Idea</option>
+                    <option value="exploring">Exploring</option>
+                    <option value="building">Building</option>
+                    <option value="launched">Launched</option>
+                </select>
+            </div>
+            <button onclick="addIdea()">Add Idea</button>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterIdeas('all')">All Ideas</button>
+            <button class="filter-btn" onclick="filterIdeas('new')">New</button>
+            <button class="filter-btn" onclick="filterIdeas('exploring')">Exploring</button>
+            <button class="filter-btn" onclick="filterIdeas('building')">Building</button>
+            <button class="filter-btn" onclick="filterIdeas('launched')">Launched</button>
+        </div>
+
+        <div class="ideas-grid" id="ideasGrid"></div>
+    </div>
+
+    <script>
+        // In-memory database
+        let db = {
+            ideas: [],
+            add(idea) {
+                const entry = {
+                    id: Date.now(),
+                    ...idea,
+                    createdAt: new Date()
+                };
+                this.ideas.push(entry);
+                updateUI();
+                return entry;
+            },
+            delete(id) {
+                this.ideas = this.ideas.filter(idea => idea.id !== id);
+                updateUI();
+            },
+            getAll() {
+                return this.ideas;
+            }
+        };
+
+        // Pre-populate with sample ideas
+        db.ideas = [
+            {
+                id: 1,
+                title: 'AI Meeting Cost Calculator',
+                description: 'Real-time calculator showing how much money is being spent during meetings based on attendee salaries. Makes hidden costs visible to leadership.',
+                status: 'building',
+                createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+            },
+            {
+                id: 2,
+                title: 'Micro-SaaS Discovery Platform',
+                description: 'Curated directory of profitable micro-SaaS businesses under $10k MRR. Helps solo founders find inspiration and opportunities.',
+                status: 'exploring',
+                createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+            },
+            {
+                id: 3,
+                title: 'Async Video Standup Tool',
+                description: 'Record quick video updates instead of live meetings. Perfect for distributed teams across timezones.',
+                status: 'new',
+                createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
+            },
+            {
+                id: 4,
+                title: 'Indie Hacker Portfolio',
+                description: 'Personal landing page generator optimized for solo founders. Showcase your projects, revenue, and journey.',
+                status: 'launched',
+                createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        function addIdea() {
+            const title = document.getElementById('titleInput').value.trim();
+            const description = document.getElementById('descriptionInput').value.trim();
+            const status = document.getElementById('statusInput').value;
+
+            if (!title || !description) {
+                alert('Please fill in both title and description!');
+                return;
+            }
+
+            db.add({ title, description, status });
+
+            // Clear inputs
+            document.getElementById('titleInput').value = '';
+            document.getElementById('descriptionInput').value = '';
+            document.getElementById('statusInput').value = 'new';
+        }
+
+        function deleteIdea(id) {
+            if (confirm('Delete this idea?')) {
+                db.delete(id);
+            }
+        }
+
+        function filterIdeas(status) {
+            currentFilter = status;
+
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            updateUI();
+        }
+
+        function formatDate(date) {
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+            return `${Math.floor(diffDays / 30)} months ago`;
+        }
+
+        function updateUI() {
+            const ideas = db.getAll();
+            const filtered = currentFilter === 'all'
+                ? ideas
+                : ideas.filter(idea => idea.status === currentFilter);
+
+            // Update stats
+            const statsHtml = `
+                <div class="stat-box">
+                    <div class="stat-number">${ideas.length}</div>
+                    <div class="stat-label">Total Ideas</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">${ideas.filter(i => i.status === 'building').length}</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">${ideas.filter(i => i.status === 'launched').length}</div>
+                    <div class="stat-label">Launched</div>
+                </div>
+            `;
+            document.getElementById('stats').innerHTML = statsHtml;
+
+            // Update ideas grid
+            const grid = document.getElementById('ideasGrid');
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="emoji"><¯</div>
+                        <h3>No ideas yet</h3>
+                        <p>Start capturing your brilliant ideas above</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(idea => `
+                <div class="idea-card">
+                    <div class="idea-header">
+                        <div>
+                            <div class="idea-title">${idea.title}</div>
+                            <span class="idea-status status-${idea.status}">
+                                ${idea.status}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="idea-description">${idea.description}</div>
+                    <div class="idea-meta">
+                        <span class="idea-date">${formatDate(idea.createdAt)}</span>
+                        <div class="idea-actions">
+                            <button class="icon-btn delete" onclick="deleteIdea(${idea.id})">
+                                ×
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initial render
+        updateUI();
+    </script>
+</body>
+</html>

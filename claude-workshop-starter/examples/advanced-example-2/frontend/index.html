@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilot Program Manager - Enterprise Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <svg class="nav-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <h1>Pilot Program Manager</h1>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-secondary" onclick="dashboard.refreshData()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                    Refresh
+                </button>
+                <button class="btn-primary" onclick="dashboard.openAddPilotModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    New Pilot
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Metrics Overview -->
+    <section class="metrics-overview">
+        <div class="container">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-label">Active Pilots</div>
+                        <div class="metric-value" id="metric-active">0</div>
+                        <div class="metric-change positive" id="metric-active-change">+0 this month</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-label">Avg Health Score</div>
+                        <div class="metric-value" id="metric-health">0</div>
+                        <div class="metric-change positive" id="metric-health-change">+0 points</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon purple">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-label">Total ARR Pipeline</div>
+                        <div class="metric-value" id="metric-arr">$0</div>
+                        <div class="metric-change positive" id="metric-arr-change">0% conversion rate</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon orange">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-label">Conversion Rate</div>
+                        <div class="metric-value" id="metric-conversion">0%</div>
+                        <div class="metric-change neutral" id="metric-conversion-change">0 converted</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard-content">
+        <div class="container">
+            <div class="dashboard-layout">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Filters</h3>
+                        <div class="filter-group">
+                            <label class="filter-label">Status</label>
+                            <select class="filter-select" id="filter-status" onchange="dashboard.applyFilters()">
+                                <option value="">All Statuses</option>
+                                <option value="active">Active</option>
+                                <option value="at_risk">At Risk</option>
+                                <option value="on_track">On Track</option>
+                                <option value="completed">Completed</option>
+                                <option value="converted">Converted</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Sort By</label>
+                            <select class="filter-select" id="filter-sort" onchange="dashboard.applyFilters()">
+                                <option value="health">Health Score</option>
+                                <option value="value">Contract Value</option>
+                                <option value="startDate">Start Date</option>
+                                <option value="endDate">End Date</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Quick Actions</h3>
+                        <div class="quick-actions">
+                            <button class="quick-action-btn" onclick="dashboard.exportReport()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Export Report
+                            </button>
+                            <button class="quick-action-btn" onclick="dashboard.viewExecutiveSummary()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                Executive Summary
+                            </button>
+                            <button class="quick-action-btn" onclick="dashboard.scheduleReview()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                Schedule Review
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">At Risk Alerts</h3>
+                        <div id="risk-alerts" class="risk-alerts">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Pilot Cards Grid -->
+                <div class="main-content">
+                    <div class="content-header">
+                        <h2 class="content-title">Active Pilot Programs</h2>
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                            <input type="text" placeholder="Search pilots..." id="search-input" oninput="dashboard.applyFilters()">
+                        </div>
+                    </div>
+
+                    <!-- Pilots Grid -->
+                    <div id="pilots-grid" class="pilots-grid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="empty-state" class="empty-state" style="display: none;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <h3>No pilots found</h3>
+                        <p>Get started by creating your first pilot program</p>
+                        <button class="btn-primary" onclick="dashboard.openAddPilotModal()">Create First Pilot</button>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div id="loading-state" class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Loading pilots...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Pilot Modal -->
+    <div id="pilot-modal" class="modal">
+        <div class="modal-overlay" onclick="dashboard.closeModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">New Pilot Program</h2>
+                <button class="modal-close" onclick="dashboard.closeModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="pilot-form" onsubmit="dashboard.savePilot(event)">
+                    <input type="hidden" id="pilot-id">
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label>Company Name *</label>
+                            <input type="text" id="company-name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Start Date *</label>
+                            <input type="date" id="start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>End Date *</label>
+                            <input type="date" id="end-date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Contract Value *</label>
+                            <input type="number" id="contract-value" placeholder="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Status *</label>
+                            <select id="pilot-status" required>
+                                <option value="active">Active</option>
+                                <option value="at_risk">At Risk</option>
+                                <option value="on_track">On Track</option>
+                                <option value="completed">Completed</option>
+                                <option value="converted">Converted</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label>Primary Contact *</label>
+                            <input type="text" id="primary-contact" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Contact Email</label>
+                            <input type="email" id="contact-email">
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Role</label>
+                            <input type="text" id="contact-role" placeholder="e.g., VP Engineering">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label>Success Criteria (one per line)</label>
+                            <textarea id="success-criteria" rows="4" placeholder="e.g., 90% user adoption&#10;Process 1000 transactions&#10;Achieve 99.9% uptime"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label>Notes</label>
+                            <textarea id="pilot-notes" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" onclick="dashboard.closeModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Pilot</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pilot Detail Modal -->
+    <div id="detail-modal" class="modal">
+        <div class="modal-overlay" onclick="dashboard.closeDetailModal()"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="detail-company-name">Pilot Details</h2>
+                <button class="modal-close" onclick="dashboard.closeDetailModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="detail-content">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

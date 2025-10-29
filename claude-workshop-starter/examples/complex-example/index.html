@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductLaunch - Discover the best new products</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>🚀 ProductLaunch</h1>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-secondary" onclick="app.showSubmitModal()">
+                    Submit Product
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Stats Dashboard -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number" id="totalProducts">0</div>
+                <div class="stat-label">Products</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="totalUpvotes">0</div>
+                <div class="stat-label">Upvotes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="totalComments">0</div>
+                <div class="stat-label">Comments</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="activeMakers">0</div>
+                <div class="stat-label">Makers</div>
+            </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="app.filterByCategory('all')">
+                All Products
+            </button>
+            <button class="filter-btn" onclick="app.filterByCategory('AI/ML')">
+                🤖 AI/ML
+            </button>
+            <button class="filter-btn" onclick="app.filterByCategory('Developer Tools')">
+                💻 Developer Tools
+            </button>
+            <button class="filter-btn" onclick="app.filterByCategory('Productivity')">
+                ⚡ Productivity
+            </button>
+            <button class="filter-btn" onclick="app.filterByCategory('Design')">
+                🎨 Design
+            </button>
+            <button class="filter-btn" onclick="app.filterByCategory('Marketing')">
+                📈 Marketing
+            </button>
+        </div>
+
+        <!-- Products List -->
+        <div class="products-list" id="productsList">
+            <!-- Products will be rendered here -->
+        </div>
+    </div>
+
+    <!-- Submit Product Modal -->
+    <div class="modal" id="submitModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Submit Your Product</h2>
+                <button class="close-btn" onclick="app.closeSubmitModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" id="productName" placeholder="e.g., Notion AI">
+                </div>
+                <div class="form-group">
+                    <label>Tagline *</label>
+                    <input type="text" id="productTagline" placeholder="One-line description of your product">
+                </div>
+                <div class="form-group">
+                    <label>Description *</label>
+                    <textarea id="productDescription" rows="4" placeholder="What does your product do? What problem does it solve?"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Maker Name *</label>
+                        <input type="text" id="productMaker" placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select id="productCategory">
+                            <option value="AI/ML">🤖 AI/ML</option>
+                            <option value="Developer Tools">💻 Developer Tools</option>
+                            <option value="Productivity">⚡ Productivity</option>
+                            <option value="Design">🎨 Design</option>
+                            <option value="Marketing">📈 Marketing</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Website URL *</label>
+                        <input type="text" id="productUrl" placeholder="https://yourproduct.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Logo/Image URL</label>
+                        <input type="text" id="productImage" placeholder="https://... (optional)">
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="app.submitProduct()">
+                    Launch Product 🚀
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <button class="close-btn" onclick="app.closeDetailModal()">×</button>
+            </div>
+            <div class="modal-body" id="productDetail">
+                <!-- Product details will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="app.closeModals()"></div>
+
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
