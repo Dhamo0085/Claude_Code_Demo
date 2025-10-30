@@ -1,0 +1,55 @@
+.date-range-picker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.date-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 12px;
+}
+
+.date-input {
+  background: transparent;
+  border: none;
+  padding: 8px 4px;
+  color: var(--text-primary);
+  font-size: 14px;
+  width: 140px;
+}
+
+.date-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.date-separator {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.date-presets {
+  display: flex;
+  gap: 8px;
+}
+
+.preset-button {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.preset-button:hover {
+  background: var(--bg-elevated);
+  border-color: var(--accent);
+  color: var(--text-primary);
+  box-shadow: none;
+  transform: none;
+}
